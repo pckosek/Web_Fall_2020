@@ -3,51 +3,39 @@
 // -------------- load packages -------------- //
 // INITIALIZATION STUFF
 
-var express = require('express');
-var path = require('path');
-var hbs = require('hbs');
-
+var express = require('express')
 var app = express();
 
 
 // -------------- express initialization -------------- //
 // PORT SETUP - NUMBER SPECIFIC TO THIS SYSTEM
+
+app.set('view engine', 'hbs')
 app.set('port', 80 );
 
-app.set('view engine', 'hbs');
 
 // -------------- express 'get' handlers -------------- //
 // These 'getters' are what fetch your pages
 
-var foo = {
-	'a' : [10,2,3,4, 50, 70],
-	'one' : 'TEN is a number',
-	'user' : {
-		'name' : 'paul',
-		'roles' : ['teacher', 'admin']
-	}
-}
+app.get('/', function(req,res) {
+	res.send('default')
+} );
 
-app.get('/', 
 
-	function(req, res, next){
-		if ('format' in req.query) {
-			if (req.query.format=='json') {
-				res.json(foo)
-			} else {
-				next()
-			}
-		} else{
-			next()
-		}
-	},
-	function(req,res) {
-		res.render('one', foo);
+app.get('/:page_number', function(req, res){
+	
+	var the_number = Number(req.params.page_number);
+	console.log(the_number)
+	if (isNaN(the_number)==false) {
+
+		res.render('index', {'special_number':the_number});
+
+	} else {
+	    res.send('please enter a number');
+
 	}
 
-);
-
-
+});
 
 
 // -------------- listener -------------- //

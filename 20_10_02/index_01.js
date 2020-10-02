@@ -24,12 +24,18 @@ app.get('/', function(req, res){
 });
 
 function somethingThatTakesTime(req,res,next) {
+
+	res.locals.foo = 12;
+	res.locals.ip = ...
     setTimeout( function() {
         next();
     }, 4000)
 }
 
-app.get('/mid', somethingThatTakesTime, function(req,res){
+app.get('/mid', procsLogin, getIP, getLocation,  somethingThatTakesTime, function(req,res){
+
+	console.log('foo: ' + res.locals.foo)
+
     res.render('example', { 'u_name' : 'Paul'});
 })
 
